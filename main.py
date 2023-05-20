@@ -46,9 +46,11 @@ FPS = 60
 
 Game = True
 loose = False
+wait = 5
 while Game:
 
     window.fill((255,255,0))
+    wait-=1
 
     Ball.reset()
     Barrier1.reset()
@@ -73,17 +75,22 @@ while Game:
 
         Barriers = [Barrier1,Barrier2]
         ball_hit_list = sprite.spritecollide(Ball, Barriers, False)
-        for hit in ball_hit_list:
-            Ball.speedY*=-1
-            Ball.speedX*=-1
+        if wait == 0:
+            for hit in ball_hit_list:
+                Ball.speedY*=-1
+                Ball.speedX*=-1
+            wait = 10
         if Ball.rect.y<10:
             Ball.speedY*=-1
+            
         elif Ball.rect.y>window_heigth-BallHeigth-10:
             Ball.speedY*=-1
+            
     
-    if Ball.rect.x < Barrier1.rect.x or Ball.rect.x > Barrier2.rect.x + 5:
+    if Ball.rect.x < Barrier1.rect.x - BallWidth/2 or Ball.rect.x > Barrier2.rect.x + BallWidth/2:
         loose = True
         Ball.speedX *= -1
+
         
 
     for e in event.get():
